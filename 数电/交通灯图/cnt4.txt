@@ -1,0 +1,29 @@
+LIBRARY IEEE;
+USE IEEE.STD_LOGIC_1164.ALL;
+USE IEEE.STD_LOGIC_UNSIGNED.ALL;
+ENTITY CNT4 IS
+	PORT(Clk : IN STD_LOGIC;
+		  rst : IN STD_LOGIC;
+		  Q   : OUT STD_LOGIC
+	);
+END CNT4;
+
+ARCHITECTURE Behv OF CNT4 IS
+BEGIN 
+PROCESS(Clk,rst)
+VARIABLE Count: INTEGER RANGE 0 TO 3;
+BEGIN
+	IF rst = '0' THEN
+		Q<='1';
+		Count :=0;
+		ELSIF Clk'EVENT AND Clk='1' THEN
+			IF Count<3 THEN
+				Q<='0';
+				Count :=Count + 1;
+			ELSE
+				Q<='1';
+				Count :=0;
+			END IF;
+		END IF;
+END PROCESS;
+END Behv;		
