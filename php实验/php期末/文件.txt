@@ -1,0 +1,64 @@
+文件：
+<?php  
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['file'])) {  
+    // 配置  
+    $allowedNames = ['allowedfile1.jpg', 'allowedfile2.pdf']; // 允许的文件名列表（通常不限制文件名，除非有特定需求）  
+    $allowedTypes = ['jpg', 'jpeg', 'png', 'gif', 'pdf']; // 允许的文件后缀名  
+    $maxSize = 2 * 1024 * 1024; // 允许的最大文件大小（2MB）  
+    $uploadDir = 'uploads/'; // 文件存储位置  
+  
+    // 确保上传目录存在  
+    if (!is_dir($uploadDir)) {  
+        mkdir($uploadDir, 0777, true);  
+    }  
+  
+    // 获取文件信息  
+    $file = $_FILES['file'];  
+    $fileName = basename($file['name']);  
+    $fileSize = $file['size'];  
+    $fileType = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));  
+  
+    // 文件名验证（通常不限制文件名，除非有特定需求）  
+    if (!empty($allowedNames) && !in_array($fileName, $allowedNames)) {  
+        die('文件名不被允许。');  
+    }  
+  
+    // 文件类型验证  
+    if (!in_array($fileType, $allowedTypes)) {  
+        die('文件类型不被允许。');  
+    }  
+  
+    // 文件大小验证  
+    if ($fileSize > $maxSize) {  
+        die('文件过大，超过允许的最大大小。');  
+    }  
+  
+    // 临时文件路径  
+    $tmpFilePath = $file['tmp_name'];  
+  
+    // 目标文件路径  
+    $targetFilePath = $uploadDir . $fileName;  
+  
+    // 将文件从临时位置移动到目标位置  
+    if (!move_uploaded_file($tmpFilePath, $targetFilePath)) {  
+        die('文件上传失败。');  
+    }  
+  
+    // 文件上传成功  
+    echo '文件上传成功！';  
+}  
+?>  
+  
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <title>文件上传示例</title>  
+</head>  
+<body>  
+<form action="" method="post" enctype="multipart/form-data">  
+    <input type="file" name="file">  
+    <input type="submit" value="上传">  
+</form>  
+</body>  
+</html>

@@ -1,0 +1,55 @@
+<?php  
+$host = 'localhost';  
+$dbname = 'your_database_name';  
+$user = 'your_username';  
+$pass = 'your_password';  
+  
+try {  
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $user, $pass);  
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);  
+    echo "Connected successfully";  
+} catch(PDOException $e) {  
+    echo "Connection failed: " . $e->getMessage();  
+}  
+?>
+
+
+<?php  
+// 引入数据库连接文件  
+require_once 'db_connection.php';  
+  
+// 查询所有用户  
+$sql = "SELECT * FROM users";  
+$stmt = $pdo->query($sql);  
+$users = $stmt->fetchAll(PDO::FETCH_ASSOC);  
+?>  
+  
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>User List</title>  
+</head>  
+<body>  
+    <h1>User List</h1>  
+    <table>  
+        <thead>  
+            <tr>  
+                <th>ID</th>  
+                <th>Username</th>  
+                <th>Email</th>  
+            </tr>  
+        </thead>  
+        <tbody>  
+        <?php foreach ($users as $user): ?>  
+            <tr>  
+                <td><?php echo $user['id']; ?></td>  
+                <td><?php echo htmlspecialchars($user['username']); ?></td>  
+                <td><?php echo htmlspecialchars($user['email']); ?></td>  
+            </tr>  
+        <?php endforeach; ?>  
+        </tbody>  
+    </table>  
+</body>  
+</html>

@@ -1,0 +1,36 @@
+ <?php
+session_start();
+include_once 'db_config.php';
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+    $confirm_password = $_POST['confirm_password'];
+    
+    if ($password !== $confirm_password) {
+        $error = "Passwords do not match.";
+    } else {
+        $sql = "SELECT * FROM users WHERE username = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param('s', $username); 
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        if ($result->num_rows > 0) {
+            $error = "Username is already taken.";
+        } else {
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+            $sql = "INSERT INTO users (username, password) VALUES (?, ?)";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param('ss', $username, $hashed_password);
+            if ($stmt->execute()) {
+                $_SESSION['user_id'] = $conn->insert_id;
+                header('Location: welcome.php');
+                exit();
+            } else {
+                $error = "Registration failed.";
+            }
+        }
+    }
+}
+?>
