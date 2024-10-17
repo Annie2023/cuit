@@ -1,0 +1,83 @@
+.386
+.model flat,stdcall
+include irvine32.inc
+MAX_SIZE = 100
+.stack 4096
+.data
+    array BYTE MAX_SIZE DUP(?)
+    arrayLength DWORD 0
+    str1 BYTE "请输入要转换的字符串： ",0
+    str2 BYTE "你输入的字符串是： ",0
+    str3 BYTE "转换后的字符串是： ", 0
+.code
+main PROC
+    call Array_Input
+    push offset array
+    push arrayLength
+    call Array_Convert
+    INVOKE ExitProcess,0
+main endp
+
+;lodsb esi <-al/ax/eax 
+;stodsb al/ax/eax ->edi    (取、存后esi自动加1)
+
+Array_Convert PROC
+    local test2:DWORD
+
+    ;首地址array
+    mov esi,[ebp+0ch]
+    ;mov edi, [ebp + 0ch]
+
+    ;arrlength
+    mov ecx,[ebp+8]
+L1: 
+    ;一个一个取数组中字符
+    mov al,[esi]
+    ;lodsb
+
+    cmp al,'A'
+    jb NotConvert
+    cmp al,'Z'
+    jA NotConvert
+
+    xor edx,edx
+    or al,20h
+    mov [esi],al
+
+    ; (只会存能转换后的值)stosb
+
+NotConvert:
+    inc esi
+    loop L1
+
+    call crlf
+    mov edx,offset str3
+    call WriteString
+
+    mov edx, offset array
+    call WriteString
+    
+    ret
+Array_Convert ENDP
+
+
+Array_Input PROC
+    mov edx,offset str1
+    call WriteString
+
+    mov edx, offset array
+    mov ecx, MAX_SIZE
+    call ReadString
+    mov arrayLength,EAX
+
+    call crlf
+    ; -------------------
+
+    mov edx, offset str2
+    call WriteString
+    mov edx, offset array
+    call WriteString
+    ret
+Array_Input ENDP
+end main
+

@@ -1,0 +1,31 @@
+.386
+.model flat, stdcall
+include irvine32.inc
+ARRAY_MAX_SIZE = 200
+.data
+arr DWORD ARRAY_MAX_SIZE DUP(0)
+arrSizeByUserInput DWORD 0
+
+str1 BYTE "请输入排序的数组长度： ", 0
+str2 BYTE "你输入的数组长度大于200！", 0
+
+.code
+main PROC
+CALL recvArraySize
+MOV arrSizeByUserInput, EAX
+INVOKE ExitProcess, 0
+main ENDP
+
+recvArraySize PROC
+mov edx, offset str1
+call WriteString
+call ReadInt
+cmp eax, 200
+JA L1
+ret
+L1: mov edx, offset str2
+call WriteString
+EXIT
+recvArraySize ENDP
+
+end main
