@@ -1,0 +1,83 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#include "base64.h"
+#include "rsa.h"
+//#include "aes.h"
+
+
+
+void rsa_test()
+{
+    char* ptr_en = NULL, * ptr_de = NULL;
+    char* ptr_enbase = NULL, * ptr_debase = NULL;
+    int len;
+
+
+    len = rsa_pub_encrypt("C:\\Users\\annie\\Desktop\\a.txt", PUBLICKEY, &ptr_en);
+    printf("pubkey encrypt=%d:\n", len);
+
+    ptr_enbase = base64_encode(ptr_en, len);
+    //printf("base64_encode len=%d\n", strlen(ptr_enbase));s
+    printf("编码后的密文：");
+    printf("%s\n", ptr_enbase);
+
+    /*int decode_len;
+    ptr_debase = base64_decode("JqdnYAhiZbXNV+h7t3jSj6DcYRwQevRjyz9qg4H7m"
+        "JizgXnUAZ0saWIwrVf+5p+TTTlLzadfSVgM4NtMsqO1kRD/M15u3j/"
+        "009KoKXPa3PZQI3o+r8tkaVloG+LMGt4IndI2jZdZ5gFv8gFQUdkoZ"
+        "jiuXa3NWnX99909dN/l0c8LTyNVF+mKt8EP8nEo6ICq/9sMl0qI8v5"
+        "DiXHRurtJVewH/2+iofAACidXlvihvQsWgt+KDntCwl2+lo+F+Fmcx"
+        "dlntnsPZVibgIYS+Mjoged4782Agp6srMyNsCmarE+mSeyhA3ywK0T"
+        "srUEQoKm3qJVD6XPXVbAO5B6MCVFd0Q==", &decode_len);
+    printf("decode_len=%d\n", decode_len);*/
+
+
+    int decode_len;
+    ptr_debase = base64_decode("L/VJMyX4/Xuwddi4wkV5DFqQhVPOjMIAj+8MGA2olG34UdFXl/kvWmJ6E6CPHw4+IILujGLAuzM25ezhEt5satBlt22dMJ5xq6Fu5Vrts+fRtextL0VWSjjd2IoXFd118XsWhIn6mwFW6kdK4UH2OoAqTK/wjlpuw+ZbBc+NbHV2i8VZmPwpaXRkzl9fXjwnUzYS5Wi0j0F7MP6kGdP+tjN+DHI9LH+hEL4UmEp3rzDlGO2aFoobsXHaCYHFW4ZiPNkIDBhJuaY92+7wPitkH+sOws+VMAh7RD7o/yKBrthVtyfCxajBIhMoLSlKZs2VQCSGtLrYe+w/R79qiK4ITQ==", &decode_len);
+    printf("decode_len=%d\n", decode_len);
+ 
+
+    rsa_prv_decrypt(ptr_debase, PRIVATEKEY, len, &ptr_de);
+    printf("privatev_key decrypt:%s\n", ptr_de == NULL ? "NULL" : ptr_de);
+
+    if (ptr_enbase != NULL) {
+        free(ptr_enbase);
+    }
+    if (ptr_debase != NULL) {
+        free(ptr_debase);
+    }
+
+    if (ptr_en != NULL) {
+        free(ptr_en);
+    }
+    if (ptr_de != NULL) {
+        free(ptr_de);
+    }
+}
+
+int main(int argc, char** argv)
+{
+    printf("准备加密的内容：");
+    FILE* file;
+    char* filename = "C:\\Users\\annie\\Desktop\\a.txt"; // 文件的路径
+
+    file = fopen(filename, "r");
+    if (file == NULL) {
+        perror("Error opening file");
+        return -1;
+    }
+
+    char buffer[1600]; // 缓冲区大小
+    while (fgets(buffer, sizeof(buffer), file) != NULL) {
+        printf("%s", buffer); // 打印读取的内容
+    }
+    printf("\n");
+
+    fclose(file);
+
+
+    rsa_test();
+
+    return 0;
+}

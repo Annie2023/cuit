@@ -1,0 +1,186 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#include<openssl/rsa.h>
+#include<openssl/pem.h>
+#include<openssl/err.h>
+#include "rsa.h"
+
+#pragma comment(lib,"libssl.lib")
+#pragma comment(lib,"libcrypto.lib")
+
+#define RSAPUBKEY
+#define KEYFORMFILE 1
+#define KEYFORMMEM	2
+#define KEYFORM	KEYFORMMEM
+
+
+//rsa_ctx：一个指向 RSA 公钥或私钥的指针
+static int do_operation(RSA* rsa_ctx, char* instr, char* path_key, int inlen, char** outstr, int type)
+{
+    if (rsa_ctx == NULL || instr == NULL || path_key == NULL)
+    {
+        perror("input elems error,please check them!");
+        return -1;
+    }
+
+    int rsa_len, num;
+    rsa_len = RSA_size(rsa_ctx);
+    *outstr = (unsigned char*)malloc(rsa_len + 1);
+    memset(*outstr, 0, rsa_len + 1);
+    switch (type) {
+    case 1: //pub enc
+        if (inlen == 0) {
+            perror("input str len is zero!");
+            goto err;
+        }
+
+        //pub
+        num = RSA_public_encrypt(inlen, (unsigned char*)instr, (unsigned char*)*outstr, rsa_ctx, RSA_PKCS1_PADDING);
+
+        break;
+    case 2: //prv dec
+        num = RSA_private_decrypt(inlen, (unsigned char*)instr, (unsigned char*)*outstr, rsa_ctx, RSA_PKCS1_PADDING);
+        break;
+    default:
+        break;
+    }
+
+    if (num == -1)
+    {
+        printf("Got error on enc/dec!\n");
+    err:
+        free(*outstr);
+        *outstr = NULL;
+        num = -1;
+    }
+
+    return num;
+}
+char* pubkey = "-----BEGIN PUBLIC KEY-----\n\
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAv1Gt1Q3FCo9rgwR1+bsR\
+qaInU+2OFnoYdhp2189doeAwP+XH3LLBnxeDRfH1PZKrvEFtKBWaB2112lN4dL/T\
+/dSOezszKHPTSg0PaxW4F+ooAY0gTQWGSuSMcY8H4RpkI7sNFFfOYQZYT0albs+e\
+RepaHtfQCfM/cFTmpHVDXqdK4uCRNZbhff2+5oEN/j0eW5t4aq+G+Qu1gz9poH5B\
+uqea69foG4LRcnwVKCXz+5ZrzE2YWYayvCEgpojXmkLcemvWkJD+K0SUsKoZ/7Wn\
+vMBg1mfkSlNTFzpDgKjYESnnUgUobwDtBT9Wdq0RHVVTyZLh4CvZMeS1NcHBqDxp\
+PQIDAQAB\
+\n-----END PUBLIC KEY-----\n";
+
+
+//指针。
+//BIO* bio = NULL; ：用于存储 BIO 对象的指针。BIO 是 OpenSSL 中用于处理数据输入输出的抽象层。
+int rsa_pub_encrypt(char* str, char* path_key, char** outstr)
+{
+    RSA* p_rsa;
+    BIO* bio = NULL;
+    FILE* file;
+    int flen, rsa_len, num;
+#if KEYFORM==KEYFORMFILE
+    if ((file = fopen(path_key, "r")) == NULL) {
+        perror("open key file error");
+        return -1;
+    }
+#else
+    //指向存储公钥信息的内存缓冲区的指针
+    if ((bio = BIO_new_mem_buf(pubkey, -1)) == NULL)       
+    {
+        perror("BIO_new_mem_buf failed!");
+    }
+#endif
+
+#ifdef RSAPUBKEY
+#if KEYFORM==KEYFORMFILE
+    if ((p_rsa = PEM_read_RSA_PUBKEY(file, NULL, NULL, NULL)) == NULL) {
+#else
+    if ((p_rsa = PEM_read_bio_RSA_PUBKEY(bio, NULL, NULL, NULL)) == NULL) {
+#endif
+#else
+    if ((p_rsa = PEM_read_RSAPublicKey(file, NULL, NULL, NULL)) == NULL) {
+#endif
+        ERR_print_errors_fp(stdout);
+        return -1;
+    }
+
+    num = do_operation(p_rsa, str, path_key, strlen(str), outstr, 1);
+
+    RSA_free(p_rsa);
+#if KEYFORM==KEYFORMFILE
+    fclose(file);
+#else
+    BIO_free_all(bio);
+#endif
+
+    return num;
+    }
+
+char* prikey = "-----BEGIN RSA PRIVATE KEY-----\n\
+MIIEogIBAAKCAQEAv1Gt1Q3FCo9rgwR1+bsRqaInU+2OFnoYdhp2189doeAwP+XH\
+3LLBnxeDRfH1PZKrvEFtKBWaB2112lN4dL/T/dSOezszKHPTSg0PaxW4F+ooAY0g\
+TQWGSuSMcY8H4RpkI7sNFFfOYQZYT0albs+eRepaHtfQCfM/cFTmpHVDXqdK4uCR\
+NZbhff2+5oEN/j0eW5t4aq+G+Qu1gz9poH5Buqea69foG4LRcnwVKCXz+5ZrzE2Y\
+WYayvCEgpojXmkLcemvWkJD+K0SUsKoZ/7WnvMBg1mfkSlNTFzpDgKjYESnnUgUo\
+bwDtBT9Wdq0RHVVTyZLh4CvZMeS1NcHBqDxpPQIDAQABAoIBAGleFLzoLoMYZf/s\
+bwUxEBM66SoCBWU/rUUuYhGNdWX30NsANEjKcnSqQHQ/Q++7XbX62qFe9Evu7x9l\
+JUw3cgu0Cxy3h/9Zex6nfrxdY9xX69ye2xFQX5vTr73DJnXFUS2UkSmJCnLJSc2v\
+fOFAm0yqOyQNe9hfDatSNwyQQKBZ0iiBP4DMfZyW0L0uREDb1Zex4PL5EMt9dlNh\
+m6rObetXBXU9Fu1UFSbH2BFzjbsgCJ/kr2ty3hwTv8ygFrNrFJtDfEGdln6vmIiE\
+Lbq12UElXtKi2Ko+uulzILFNSSHzi7aJt0y+szBnXkF0XVirvBgIEGCQvL2ynf5O\
+Vr96N0kCgYEA7ixwmmjevu4zvcW2nVrXbV+0H0088OKKJMrs92daECL1H/lRCAxI\
+MOK6nXEgPy6siMPbErPt3j2bj63HAZVXMfkv4xhn5kCbbhqxS6EsBwoy3hH8Mg9a\
+EIbIurdtIZPaElC/nMbD8EoLZpruNhuezQJpsJOm9zIswpj5SYLmEIsCgYEAzaN5\
+2eAyEWPTf8Jd+EwhHfGYRnvdNCnlO1G4mbY5w6UU0grko1uuE7XzCfDYAeRgqUHc\
+FDFcj3K/wTofj/KqcUBATy7WolkQOc5TF9P6z8HBPpCaxIHgIT3xMzCLSeSlZkK5\
+5MBEl0kCGYdTOhGFlQkmNfYb9b3Y3AmJ3NVlnlcCgYA2w3ccufJFmoXBI93qboHM\
+P04uSFcz2BMFhLdZ56S4wyDzuiLco95Rh0B7hRByFqxLQiV0NnUCPc4wCjgQ8CK9\
+dduB7xGsyrwyY+bSSfvSnpC1qRMA+7CsziEHdbedGd7xiSmVxco1zQC0Ffmh7VXl\
+M6HTnQ+uFRZfpEbllTiLIwKBgGW2lm7OFfXECrkGyrQl87t75HX4jlFe56OPqF9f\
+YvMClGnQOYcTsebN+IjSOAW3kJgnm1PhlobdmztYJIRu4x9hSG3iHQfwRbZR94ex\
+sj1Q+OSZYfQQyWun18YaHMtP7P/HwWsELuklk4RNCz2NrSUqgVvvf6TtYnZzwV0Z\
+sEnBAoGAF7be2xB6tDoGic/oKahwbR9rviur7zKA+LPapeRwxXElWYCE2ON1NUlF\
++Z+5ajqGjUtQWXDCPqaLO5gSPipPHxX6tYIeolk1C5veZBkeHgG4TLMuIxtpGayw\
+6/P3Pru8xzm8gZZTYqpmnFoXS6gQ2sNtrbyLJNNzH9bUNH7diVU=\
+\n-----END RSA PRIVATE KEY-----\n";
+
+int rsa_prv_decrypt(char* str, char* path_key, int inlen, char** outstr)//一个指向字符串的指针 str，一个指向私钥文件路径的指针 path_key，一个整数 inlen 表示输入数据的长度，以及一个指向输出字符串指针的指针 outstr
+{
+    //RSA* p_rsa; 和 BIO* bio = NULL; 两个变量，用于存储 RSA 密钥和 BIO 对象
+    RSA* p_rsa;
+    BIO* bio = NULL;
+    FILE* file;
+    int rsa_len, num;
+
+#if KEYFORM==KEYFORMFILE
+    if ((file = fopen(path_key, "r")) == NULL) {
+        perror("open key file error");
+        return -1;
+    }
+#else
+    if ((bio = BIO_new_mem_buf(prikey, -1)) == NULL)      
+    {
+        perror("BIO_new_mem_buf failed!");
+    }
+#endif
+
+#if KEYFORM==KEYFORMFILE
+//PEM_read_RSAPrivateKey 是 OpenSSL 中的一个函数，用于从文件中读取并解析 PEM 格式的 RSA 私钥(静态)。让我解释其中的参数：
+//file：表示要从中读取私钥的文件指针。
+// NULL：这里使用了四个参数中的前两个，后两个参数都传入了 NULL。这些参数分别用于提供密码回调函数和额外数据，但在此处未使用。如果私钥文件受密码保护，可以传递相应的密码回调函数和额外数据以解密私钥。
+    if ((p_rsa = PEM_read_RSAPrivateKey(file, NULL, NULL, NULL)) == NULL) {
+#else
+    if ((p_rsa = PEM_read_bio_RSAPrivateKey(bio, NULL, NULL, NULL)) == NULL) {
+#endif
+        ERR_print_errors_fp(stdout);
+        return -1;
+    }
+    //do_operation 函数，执行私钥解密操作。传递给 do_operation 函数的参数包括 RSA 密钥、要解密的字符串、密钥路径、输入数据长度和输出字符串指针。
+    num = do_operation(p_rsa, str, path_key, inlen, outstr, 2);
+    RSA_free(p_rsa);
+#if KEYFORM==KEYFORMFILE
+    fclose(file);
+#else
+    BIO_free_all(bio);
+#endif
+
+    return num;
+    }

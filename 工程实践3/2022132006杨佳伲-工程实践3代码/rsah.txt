@@ -1,0 +1,10 @@
+#ifndef _RSA_H
+#define _RSA_H
+
+#define PRIVATEKEY "key.pem"
+#define PUBLICKEY "key_pub.pem"
+
+int rsa_pub_encrypt(char* str, char* path_key, char** outstr);
+int rsa_prv_decrypt(char* str, char* path_key, int inlen, char** outstr);
+
+#endif

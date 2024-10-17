@@ -1,0 +1,13 @@
+openssl genrsa -out  C:\Users\annie\Desktop\testkey.txt 1024
+openssl rsa -in  C:\Users\annie\Desktop\testkey.txt -pubout -out C:\Users\annie\Desktop\testpubkey.txt
+openssl rsautl -encrypt -in hello.txt -inkey testpubkey.txt -pubin -out helloen.txt
+openssl rsautl -decrypt -in helloen.txt -inkey testkey.txt -out hellode.txt
+
+
+time openssl rsautl -encrypt -in plaintext.txt -inkey public_key.pem -out ciphertext.txt
+time openssl rsautl -decrypt -in ciphertext.txt -inkey private_key.pem -out decrypted.txt
+
+time openssl rsautl -encrypt -in C:\\Users\\annie\\Desktop\\hello.txt -inkey C:\\Users\\annie\\Desktop\\testpubkey.txt -out C:\\Users\\annie\\Desktop\\helloen.txt
+time openssl rsautl -decrypt -in C:\\Users\\annie\\Desktop\\helloen.txt -inkey C:\\Users\\annie\\Desktop\\testkey.txt -out C:\\Users\\annie\\Desktop\\hellode.txt
+
+
