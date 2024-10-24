@@ -1,0 +1,163 @@
+*{
+    padding: 0;
+    margin: 0;
+    font-family: 幼圆;
+}
+
+.mouse{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;;
+    position: fixed;
+    left: -200px;
+    z-index: 1000;
+    pointer-events: none;
+}
+
+
+#backImg{
+    position:fixed;
+    z-index: -1;
+    background-size: 100% 100%;
+    opacity: 0.6;
+}
+
+nav{
+    background-image:linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)), url(/index/img/bg3-gqj.png) ;
+    height: 100vh;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: center;
+}
+
+.main ul{
+    float: right;
+    list-style: none;
+    margin: 20px;
+}
+
+ul li{
+    display: inline-block;
+}
+
+ul li a{
+    display: block;
+    text-decoration: none;
+    color: #fff;
+    padding: 5px 20px;
+    border: 1px solid transparent;
+    transition: .6s ease;
+    border-radius: 20px;
+}
+
+ul>li>a:hover{
+    background-color: #fff;
+    color: #000;
+}
+ul li.active a{
+    background-color: #fff;
+    color: #000;
+}
+.title{
+    position: absolute;
+    top:5%;
+    left:30%;
+    transform: translate(-50%,-50%);
+}
+.title h1{
+    color: #fff;
+    letter-spacing: 20px;
+    font-size: 60px;
+    font-family: 方正舒体;
+}
+
+.drop-down-content{
+    padding: 0;
+    display: none;
+}
+.drop-down:hover .drop-down-content{
+    display: inline-block;
+}
+.drop-down-content li:hover a{
+    background-color:#fff;
+}
+
+.introduce {
+    display: flex;
+    flex-direction: column;
+}
+
+.introduce_item {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    margin-top: 60px;
+}
+
+.introduce_item_img {
+    width: 800px;
+    height: 450px;
+    border-radius: 50px;
+}
+
+.introduce_item_title {
+    width: 300px;
+    font-size: 18px;
+    line-height: 36px;
+    position: relative;
+    right: 100px;
+    top: 160px;
+    padding-left: 100px;
+}
+
+.introduce_item_titles {
+    width: 300px;
+    font-size: 18px;
+    line-height: 36px;
+    position: relative;
+    left: 100px;
+    top: 160px;
+    padding-right: 100px;
+}
+
+img+p{
+    position: relative;
+    left: 220px;
+    font-family: 幼圆;
+    font-size: 50px;
+}
+
+p{
+    position: relative;
+    right: 260px;
+    top: 50px;
+    font-family: 幼圆;
+    font-size: 50px;
+}
+
+audio{
+    z-index: 1;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+
+}
+a[href="gqj.html"]
+{
+    display: block;
+    text-decoration: none;
+    color: #fff;
+    padding: 5px 20px;
+    border: 1px solid transparent;
+    transition: .6s ease;
+    border-radius: 20px;
+}
+
+.introduce_item_img:first-child:hover
+{
+    box-shadow: 30px 30px 20px rgba(0,0,0,0.25);
+}
+
+
+
+
