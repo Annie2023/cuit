@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Employee Data Table</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    <h2>员工信息表</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>姓名</th>
+          <th>年龄</th>
+          <th>职位</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(employee, index) in employees" :key="index" :class="getRowClass(index)">
+          <td>
+            <input v-if="employee.isEditing" v-model="employee.name" type="text" class="edit-input">
+            <span v-else>{{ employee.name }}</span>
+          </td>
+          <td>
+            <input v-if="employee.isEditing" v-model="employee.age" type="number" class="edit-input">
+            <span v-else>{{ employee.age }}</span>
+          </td>
+          <td>
+            <input v-if="employee.isEditing" v-model="employee.position" type="text" class="edit-input">
+            <span v-else>{{ employee.position }}</span>
+          </td>
+          <td>
+            <div class="button-group">
+              <button v-if="!employee.isEditing" @click="editEmployee(index)">编辑</button>
+              <button v-else @click="updateEmployee(index)">更新</button>
+              <button @click="deleteEmployee(index)">删除</button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <button id="addButton" @click="addEmployee">添加员工</button>
+  </div>
+
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>

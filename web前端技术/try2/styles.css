@@ -1,0 +1,85 @@
+/* table {
+    border-collapse: collapse;
+    width: 100%;
+    table-layout: fixed; /* 固定表格布局 */
+  /* }
+  
+  th, td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  th {
+    background-color: #f2f2f2;
+  }
+  
+  /* 输入框样式 
+  .edit-input {
+    width: 90%; /* 固定输入框宽度 
+    padding: 5px;
+    box-sizing: border-box;
+  }
+  
+  /* 操作列按钮布局 
+  .button-group {
+    display: flex;
+    gap: 5px; /* 按钮间距 
+  }
+  
+  button {
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  
+  #addButton {
+    margin-top: 10px;
+  }  */
+
+  /*实验2.2*/
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    table-layout: fixed; /* 固定表格布局 */
+  }
+  
+  th, td {
+    border: 1px solid #ccccccc1;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  th {
+    background-color: #2179c560;
+  }
+  
+  /* 输入框样式 */
+  .edit-input {
+    width: 90%; /* 固定输入框宽度 */
+    padding: 5px;
+    box-sizing: border-box;
+  }
+  
+  /* 操作列按钮布局 */
+  .button-group {
+    display: flex;
+    gap: 5px; /* 按钮间距 */
+  }
+  
+  button {
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  
+  #addButton {
+    margin-top: 10px;
+  }
+  
+  /* 隔行变色样式 */
+  .odd-row {
+    background-color: #f2f2f2f0;
+  }
+  
+  .even-row {
+    background-color: #ffffff00;
+  }

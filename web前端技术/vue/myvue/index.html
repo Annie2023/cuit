@@ -1,0 +1,98 @@
+<!-- <!DOCTYPE html>
+<html lang="">
+  <head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vite App</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Music Player App</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div id="app">
+      <router-view></router-view>
+    </div>
+
+    <script src="https://unpkg.com/vue@next"></script>
+    <script src="https://unpkg.com/vue-router@4"></script>
+    <script src="https://unpkg.com/pinia@2"></script>
+    <script type="module" src="src/main.ts"></script>
+  </body>
+</html>
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Display App</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <div id="app"></div>
+
+  <!引入 Vue 3 和 Axios -->
+  <!-- <script src="https://unpkg.com/vue@3"></script>
+  <script src="https://unpkg.com/axios"></script>
+
+  <script>
+    const { createApp, ref, onMounted } = Vue;
+
+    createApp({
+      setup() {
+        const tasks = ref([]); // 定义响应式数据
+
+        // 定义获取任务的方法
+        const fetchTasks = async () => {
+          try {
+            const response = await axios.get('https://jsonplaceholder.typicode.com/todos');
+            tasks.value = response.data; // 将获取的数据赋值给 tasks
+          } catch (error) {
+            console.error('获取任务数据失败:', error);
+          }
+        };
+
+        // 在组件挂载时调用 fetchTasks
+        onMounted(() => {
+          fetchTasks();
+        });
+
+        // 返回模板中需要使用的数据
+        return {
+          tasks
+        };
+      },
+      template: `
+        <div>
+          <h2>任务列表</h2>
+          <div class="task-list">
+            <div v-for="task in tasks" 
+                 :key="task.id" 
+                 :class="['task-item', task.completed ? 'completed' : 'not-completed']">
+              <p><strong>ID:</strong> {{ task.id }}</p>
+              <p><strong>Title:</strong> {{ task.title }}</p>
+              <p><strong>Completed:</strong> {{ task.completed ? 'Yes' : 'No' }}</p>
+            </div>
+          </div>
+        </div>
+      `
+    }).mount('#app');
+  </script>
+</body>
+
+</html> -->

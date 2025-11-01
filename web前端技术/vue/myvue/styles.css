@@ -1,0 +1,77 @@
+/* 音乐列表样式 */
+.music-list {
+    width: 80%;
+    margin: 0 auto;
+  }
+  
+  .music-item {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .even-row {
+    background-color: #f2f2f2;
+  }
+  
+  .odd-row {
+    background-color: #e0e0e0;
+  }
+  
+  /* 音乐播放页面样式 */
+   .music-play {
+    width: 80%;
+    margin: 0 auto;
+  }
+  
+  .music-info {
+    margin-bottom: 20px;
+  }
+  
+  .controls {
+    margin-top: 20px;
+  }
+  
+  .play-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  
+  .pause-button {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  
+  .prev-button,
+  .next-button {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+  } 
+
+  /* .task-list {
+    width: 80%;
+    margin: 0 auto;
+  }
+  
+  .task-item {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .completed {
+    background-color: #d4edda;
+  }
+  
+  .not-completed {
+    background-color: #f8d7da;
+  } */

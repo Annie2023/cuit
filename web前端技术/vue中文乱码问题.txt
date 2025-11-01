@@ -1,0 +1,3 @@
+改htmlzh-CH
+vue文件utf-8
+设置-encoding-
