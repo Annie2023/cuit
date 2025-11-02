@@ -1,0 +1,113 @@
+autostart = False
+version = 0.8.6
+[qemu 127.0.0.1:10525]
+    workingdir = qemu-flash-drives
+    udp = 40000
+    qemupath = qemu.exe
+    qemuimgpath = qemu-img.exe
+    [[525]]
+        image = C:\Users\Annie\GNS3\ios\pix802.bin
+        ram = 128
+        netcard = e1000
+        serial = 0x30392303
+        key = 0x6f91ddb5,0x3c8ce153,0xcb588bee,0x234c4f77
+    [[PIX PIX1]]
+        e0 = R1 f0/0
+        e1 = R3 f0/0
+        x = -534.0
+        y = -89.0
+        z = 1.0
+    [[PIX PIX2]]
+        e0 = R2 f0/0
+        e1 = R3 f0/1
+        x = 42.0
+        y = 34.0
+        z = 1.0
+        hx = 23.0
+        hy = 43.0
+[127.0.0.1:7200]
+    workingdir = C:\Users\Annie\GNS3\dynamips
+    udp = 10001
+    [[3725]]
+        image = C:\Users\Annie\GNS3\ios\c3725.image
+        ram = 128
+        idlepc = 0x60c09aa0
+        sparsemem = True
+        ghostios = True
+    [[ROUTER R3]]
+        model = 3725
+        console = 2103
+        aux = 2503
+        cnfg = configs\R3.cfg
+        f0/0 = PIX1 e1
+        f0/1 = PIX2 e1
+        symbol = cloud
+        x = -302.0
+        y = -109.0
+        z = 1.0
+    [[ROUTER R1]]
+        model = 3725
+        console = 2101
+        aux = 2501
+        cnfg = configs\R1.cfg
+        f0/0 = PIX1 e0
+        x = -515.0
+        y = 114.0
+        z = 1.0
+        hx = 19.0
+        hy = 46.0
+    [[ROUTER R2]]
+        model = 3725
+        console = 2102
+        aux = 2502
+        cnfg = configs\R2.cfg
+        f0/0 = PIX2 e0
+        x = 39.0
+        y = -192.0
+        z = 1.0
+[GNS3-DATA]
+    configs = configs
+    [[NOTE 1]]
+        text = ".1"
+        x = -128.0
+        y = -66.5
+    [[NOTE 2]]
+        text = ".5"
+        x = 38.0
+        y = -2.5
+    [[NOTE 3]]
+        text = ".1"
+        x = 20.0
+        y = -157.5
+    [[NOTE 4]]
+        text = ".1"
+        x = -524.0
+        y = 91.5
+    [[NOTE 5]]
+        text = ".3"
+        x = -461.0
+        y = -105.5
+    [[NOTE 6]]
+        text = "inside 133.33.33.0/24"
+        x = -479.0
+        y = 30.5
+    [[NOTE 7]]
+        text = ".3"
+        x = -526.0
+        y = -42.5
+    [[NOTE 8]]
+        text = ".1"
+        x = -317.0
+        y = -104.5
+    [[NOTE 9]]
+        text = "inside\n10.9.9.0/24"
+        x = 110.0
+        y = -82.5
+    [[NOTE 10]]
+        text = "outside\n192.168.3.0/24"
+        x = -459.0
+        y = -164.5
+    [[NOTE 11]]
+        text = "outside\n192.168.9.0/24"
+        x = -153.0
+        y = 1.5

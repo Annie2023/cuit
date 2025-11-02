@@ -1,0 +1,160 @@
+autostart = False
+version = 0.8.6
+[qemu 127.0.0.1:10525]
+    workingdir = qemu-flash-drives
+    udp = 40000
+    qemupath = qemu.exe
+    qemuimgpath = qemu-img.exe
+    [[525]]
+        image = C:\Users\Annie\GNS3\ios\pix802.bin
+        ram = 128
+        netcard = e1000
+        serial = 0x30392303
+        key = 0x6f91ddb5,0x3c8ce153,0xcb588bee,0x234c4f77
+    [[PIX PIX1]]
+        e0 = SW1 8
+        e1 = R3 f0/0
+        e2 = SW2 1
+        x = -59.9497474683
+        y = -207.476659403
+        z = 1.0
+[127.0.0.1:7200]
+    workingdir = working
+    udp = 10001
+    [[3725]]
+        image = C:\Users\Annie\GNS3\ios\c3725.image
+        ram = 128
+        idlepc = 0x60c09aa0
+        sparsemem = True
+        ghostios = True
+    [[ROUTER R4]]
+        model = 3725
+        console = 2104
+        aux = 2504
+        cnfg = configs\R4.cfg
+        f0/0 = SW2 2
+        x = -146.0
+        y = 53.0
+        z = 1.0
+    [[ROUTER R1]]
+        model = 3725
+        console = 2101
+        aux = 2501
+        cnfg = configs\R1.cfg
+        f0/0 = SW1 1
+        x = -383.0
+        y = -260.0
+        z = 1.0
+    [[ROUTER R2]]
+        model = 3725
+        console = 2102
+        aux = 2502
+        cnfg = configs\R2.cfg
+        f0/0 = SW1 2
+        x = -375.0
+        y = -124.0
+        z = 1.0
+    [[ROUTER R3]]
+        model = 3725
+        console = 2103
+        aux = 2503
+        cnfg = configs\R3.cfg
+        f0/0 = PIX1 e1
+        x = 165.0
+        y = -175.0
+        z = 1.0
+    [[ETHSW SW1]]
+        1 = access 1 R1 f0/0
+        2 = access 1 R2 f0/0
+        8 = access 1 PIX1 e0
+        x = -219.5
+        y = -164.0
+        z = 1.0
+    [[ETHSW SW2]]
+        1 = access 1 PIX1 e2
+        2 = access 1 R4 f0/0
+        3 = access 1 R5 f0/0
+        x = -72.5
+        y = -50.0
+        z = 1.0
+[127.0.0.1:7201]
+    workingdir = working
+    udp = 10101
+    [[3725]]
+        image = C:\Users\Annie\GNS3\ios\c3725.image
+        ram = 128
+        idlepc = 0x60c09aa0
+        sparsemem = True
+        ghostios = True
+    [[ROUTER R5]]
+        model = 3725
+        console = 2105
+        aux = 2505
+        cnfg = configs\R5.cfg
+        f0/0 = SW2 3
+        x = 66.0
+        y = 52.0
+        z = 1.0
+[GNS3-DATA]
+    configs = configs
+    workdir = working
+    [[NOTE 1]]
+        text = "10.0.0.100-110/24"
+        x = 38.1837661841
+        y = -79.9680374315
+    [[NOTE 2]]
+        text = "外网golbal地址池192.168.1.100-110/24"
+        x = 87.6812408671
+        y = -271.593975133
+    [[NOTE 3]]
+        text = "NAT地址池 10.0.0.0/24，服务器端"
+        x = 31.8198051534
+        y = -47.441125497
+    [[NOTE 4]]
+        text = "0.3"
+        x = 74.9533188058
+        y = 7.00609665441
+    [[NOTE 5]]
+        text = "10.0.0.2 《》 192.168.1.200\n10.0.0.3 《》 192.168.1.201"
+        x = -50.9116882454
+        y = 139.942171517
+    [[NOTE 6]]
+        text = "0.1"
+        x = -6.36396103068
+        y = -155.628463018
+    [[NOTE 7]]
+        text = "1.2"
+        x = -305.470129473
+        y = -241.188383542
+    [[NOTE 8]]
+        text = "0.2"
+        x = -65.0538238692
+        y = 64.2817459305
+    [[NOTE 9]]
+        text = "1.3"
+        x = -291.327993849
+        y = -87.0391052434
+    [[NOTE 10]]
+        text = "1.1"
+        x = -92.6309883354
+        y = -207.954364826
+    [[NOTE 11]]
+        text = "172.16.1.0/24"
+        x = -235.466558135
+        y = -273.715295477
+    [[NOTE 12]]
+        text = "1.2"
+        x = 126.572113832
+        y = -159.163996924
+    [[NOTE 13]]
+        text = "1.1"
+        x = 5.65685424949
+        y = -231.288888605
+    [[NOTE 14]]
+        text = "192.168.1.0/24"
+        x = 77.7817459305
+        y = -231.995995387
+    [[NOTE 15]]
+        text = "pix三接口\nouside 外   inside 内     dmz 服务器\nNAT inside-outside-dmz"
+        x = -249.0
+        y = -430.5

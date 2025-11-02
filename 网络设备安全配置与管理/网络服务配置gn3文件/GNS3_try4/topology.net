@@ -1,0 +1,197 @@
+autostart = False
+version = 0.8.6
+[qemu 127.0.0.1:10525]
+    workingdir = qemu-flash-drives
+    udp = 40000
+    qemupath = qemu.exe
+    qemuimgpath = qemu-img.exe
+    [[525]]
+        image = C:\Users\Annie\GNS3\ios\pix802.bin
+        ram = 128
+        netcard = e1000
+        serial = 0x30392303
+        key = 0x6f91ddb5,0x3c8ce153,0xcb588bee,0x234c4f77
+    [[PIX PIX1]]
+        e0 = SW1 1
+        e1 = SW2 1
+        e2 = R2 f0/0
+        x = -295.0
+        y = -103.0
+        z = 1.0
+[127.0.0.1:7200]
+    workingdir = C:\Users\Annie\GNS3\dynamips
+    udp = 10001
+    [[3725]]
+        image = C:\Users\Annie\GNS3\ios\c3725.image
+        ram = 128
+        idlepc = 0x60c09aa0
+        sparsemem = True
+        ghostios = True
+    [[ROUTER R1]]
+        model = 3725
+        console = 2101
+        aux = 2501
+        cnfg = configs\R1.cfg
+        f0/0 = SW1 2
+        x = -47.0
+        y = -248.0
+        z = 1.0
+    [[ROUTER R2]]
+        model = 3725
+        console = 2102
+        aux = 2502
+        cnfg = configs\R2.cfg
+        f0/0 = PIX1 e2
+        x = -326.0
+        y = 102.0
+        z = 1.0
+    [[ROUTER PC1]]
+        model = 3725
+        console = 2103
+        aux = 2503
+        cnfg = configs\PC1.cfg
+        f0/0 = SW2 2
+        x = -600.0
+        y = -253.0
+        z = 1.0
+        hx = 20.0
+        hy = -25.0
+    [[ETHSW SW1]]
+        1 = access 1 PIX1 e0
+        2 = access 1 R1 f0/0
+        x = -55.5
+        y = -111.0
+        z = 1.0
+        hx = 15.5
+        hy = -25.0
+    [[ETHSW SW2]]
+        1 = access 1 PIX1 e1
+        2 = access 1 PC1 f0/0
+        3 = access 1 nio_gen_eth:\device\npf_{7b79d183-d297-4593-9061-3c7881fa7d59}
+        x = -518.5
+        y = -103.0
+        z = 1.0
+[GNS3-DATA]
+    configs = configs
+    [[NOTE 1]]
+        text = "内网主机pc1"
+        x = -583.0
+        y = -308.5
+    [[NOTE 2]]
+        text = "DMZ服务器"
+        x = -343.0
+        y = 162.5
+    [[NOTE 3]]
+        text = "AAA服务器\n133.33.33.5"
+        x = -674.0
+        y = 94.5
+    [[NOTE 4]]
+        text = ".1"
+        x = -17.0
+        y = -301.5
+    [[NOTE 5]]
+        text = "133.33.33.0/24"
+        x = -522.0
+        y = -11.5
+    [[NOTE 6]]
+        text = "outside"
+        x = -188.0
+        y = -117.5
+    [[NOTE 7]]
+        text = "inside"
+        x = -402.0
+        y = -118.5
+    [[NOTE 8]]
+        text = ".3"
+        x = -324.0
+        y = -127.5
+    [[NOTE 9]]
+        text = "192.168.9.0/24"
+        x = 39.0
+        y = -161.5
+    [[NOTE 10]]
+        text = ".1"
+        x = -261.0
+        y = 77.5
+    [[NOTE 11]]
+        text = ".3"
+        x = -229.0
+        y = -127.5
+    [[NOTE 12]]
+        text = ".3"
+        x = -242.0
+        y = -60.5
+    [[NOTE 13]]
+        text = "10.9.9.0/24"
+        x = -260.0
+        y = -0.5
+    [[NOTE 14]]
+        text = ".10"
+        x = -640.0
+        y = -285.5
+    [[NOTE 15]]
+        text = "1"
+        x = 75.4852664315
+        y = 17.0855728443
+        interface = SW2 1
+    [[NOTE 16]]
+        text = "2"
+        x = 15.345158979
+        y = -18.5511560359
+        interface = SW2 2
+    [[NOTE 17]]
+        text = "3"
+        x = 7.52823378145
+        y = 44.5933610234
+        interface = SW2 3
+    [[NOTE 18]]
+        text = "1"
+        x = -4.43323222679
+        y = 18.3101869883
+        interface = SW1 1
+    [[NOTE 19]]
+        text = "2"
+        x = 37.3301424564
+        y = -23.958110298
+        interface = SW1 2
+    [[NOTE 20]]
+        text = "e1"
+        x = -6.98526643152
+        y = 20.9144271557
+        interface = PIX1 e1
+    [[NOTE 21]]
+        text = "e0"
+        x = 72.9332322268
+        y = 19.6898130117
+        interface = PIX1 e0
+    [[NOTE 22]]
+        text = "e2"
+        x = 27.0192153097
+        y = 61.5503503712
+        interface = PIX1 e2
+    [[NOTE 23]]
+        text = "f0/0"
+        x = 53.154841021
+        y = 56.5511560359
+        interface = PC1 f0/0
+    [[NOTE 24]]
+        text = "f0/0"
+        x = 38.9807846903
+        y = -17.5503503712
+        interface = R2 f0/0
+    [[NOTE 25]]
+        text = "f0/0"
+        x = 31.1698575436
+        y = 61.958110298
+        interface = R1 f0/0
+    [[NOTE 26]]
+        text = "nio_gen_eth:\device\npf_{7b79d183-d297-4593-9061-3c7881fa7d59}"
+        x = 67.4647077732
+        y = -6.24170127926
+        interface = C1 nio_gen_eth:\device\npf_{7b79d183-d297-4593-9061-3c7881fa7d59}
+    [[Cloud C1]]
+        symbol = Host
+        x = -650.5
+        y = 21.5
+        z = 1.0
+        connections = SW2:3:nio_gen_eth:\device\npf_{7b79d183-d297-4593-9061-3c7881fa7d59}

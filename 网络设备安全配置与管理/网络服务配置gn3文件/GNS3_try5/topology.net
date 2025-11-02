@@ -1,0 +1,118 @@
+autostart = False
+version = 0.8.6
+[qemu 127.0.0.1:10525]
+    workingdir = qemu-flash-drives
+    udp = 40000
+    qemupath = qemu.exe
+    qemuimgpath = qemu-img.exe
+    [[525]]
+        image = C:\Users\Annie\GNS3\ios\pix802.bin
+        ram = 128
+        netcard = e1000
+        serial = 0x30392303
+        key = 0x6f91ddb5,0x3c8ce153,0xcb588bee,0x234c4f77
+    [[PIX PIX1]]
+        e0 = SW1 1
+        e1 = R7 f1/0
+        x = -167.0
+        y = -189.0
+        z = 1.0
+[127.0.0.1:7200]
+    workingdir = C:\Users\Annie\GNS3\dynamips
+    udp = 10001
+    [[3725]]
+        image = C:\Users\Annie\GNS3\ios\c3725.image
+        ram = 128
+        idlepc = 0x60c09aa0
+        sparsemem = True
+        ghostios = True
+    [[ROUTER R4]]
+        model = 3725
+        console = 2109
+        aux = 2509
+        cnfg = configs\R4.cfg
+        f0/0 = R7 f1/2
+        x = -344.0
+        y = 154.0
+        z = 1.0
+        hx = 26.0
+        hy = -25.0
+    [[ROUTER R7]]
+        model = 3725
+        console = 2107
+        aux = 2507
+        cnfg = configs\R7.cfg
+        slot1 = NM-16ESW
+        f1/0 = PIX1 e1
+        f1/1 = R3 f0/0
+        f1/2 = R4 f0/0
+        symbol = route_switch_processor
+        x = -445.0
+        y = -192.0
+        z = 1.0
+    [[ROUTER R1]]
+        model = 3725
+        console = 2101
+        aux = 2501
+        cnfg = configs\R1.cfg
+        f0/0 = SW1 2
+        x = 269.0
+        y = 8.0
+        z = 1.0
+    [[ROUTER R3]]
+        model = 3725
+        console = 2108
+        aux = 2508
+        cnfg = configs\R3.cfg
+        f0/0 = R7 f1/1
+        x = -613.0
+        y = -29.0
+        z = 1.0
+    [[ETHSW SW1]]
+        1 = access 1 PIX1 e0
+        2 = access 1 R1 f0/0
+        x = -4.5
+        y = 6.0
+        z = 1.0
+[GNS3-DATA]
+    configs = configs
+    [[NOTE 1]]
+        text = ".1"
+        x = -603.0
+        y = 23.5
+    [[NOTE 2]]
+        text = ".1"
+        x = 346.0
+        y = -17.5
+    [[NOTE 3]]
+        text = "CXTB\nVLAN30\ne1.3\n10.9.9.3"
+        x = -288.0
+        y = -128.5
+    [[NOTE 4]]
+        text = ".1"
+        x = -293.0
+        y = 103.5
+    [[NOTE 5]]
+        text = "VLAN40\n10.9.5.0/24"
+        x = -656.0
+        y = -147.5
+    [[NOTE 6]]
+        text = "VLAN30\n10.9.9.0/24"
+        x = -328.0
+        y = -3.5
+    [[NOTE 7]]
+        text = "CXTA 外网\ne0:9.3"
+        x = 8.0
+        y = -122.5
+    [[NOTE 8]]
+        text = "CXTB\nVLAN40\ne1.4\n10.9.5.3"
+        x = -259.0
+        y = -283.5
+    [[NOTE 9]]
+        text = "192.168.9.0/24"
+        x = 103.0
+        y = -39.5
+    [[NOTE 10]]
+        text = "CXTB\n外网192.168.9.13"
+        x = -79.0
+        y = -233.5

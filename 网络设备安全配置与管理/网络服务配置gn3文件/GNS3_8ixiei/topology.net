@@ -1,0 +1,180 @@
+autostart = False
+version = 0.8.6
+[qemu 127.0.0.1:10525]
+    workingdir = qemu-flash-drives
+    udp = 40000
+    qemupath = qemu.exe
+    qemuimgpath = qemu-img.exe
+    [[525]]
+        image = C:\Users\Annie\GNS3\ios\pix802.bin
+        ram = 128
+        netcard = e1000
+        serial = 0x30392303
+        key = 0x6f91ddb5,0x3c8ce153,0xcb588bee,0x234c4f77
+    [[PIX PIX1]]
+        e0 = R1 f0/0
+        e1 = R2 f0/0
+        e2 = R3 f0/0
+        x = -226.0
+        y = -132.0
+        z = 1.0
+        hx = 19.0
+        hy = 49.0
+[127.0.0.1:7200]
+    workingdir = C:\Users\Annie\GNS3\dynamips
+    udp = 10001
+    [[3725]]
+        image = C:\Users\Annie\GNS3\ios\c3725.image
+        ram = 128
+        idlepc = 0x60c09aa0
+        sparsemem = True
+        ghostios = True
+    [[ROUTER R4]]
+        model = 3725
+        console = 2108
+        aux = 2508
+        cnfg = configs\R4.cfg
+        f0/0 = R5 f0/0
+        x = 306.0
+        y = -114.0
+        z = 1.0
+    [[ROUTER R1]]
+        model = 3725
+        console = 2105
+        aux = 2505
+        cnfg = configs\R1.cfg
+        f0/0 = PIX1 e0
+        x = -488.0
+        y = -234.0
+        z = 1.0
+    [[ROUTER R2]]
+        model = 3725
+        console = 2106
+        aux = 2506
+        cnfg = configs\R2.cfg
+        f0/0 = PIX1 e1
+        x = 26.0
+        y = -228.0
+        z = 1.0
+    [[ROUTER R3]]
+        model = 3725
+        console = 2107
+        aux = 2507
+        cnfg = configs\R3.cfg
+        f0/0 = PIX1 e2
+        x = -240.0
+        y = -342.0
+        z = 1.0
+    [[ETHSW SW1]]
+        x = 363.5
+        y = 344.0
+        z = 1.0
+        hx = 41.5
+        hy = -20.0
+[127.0.0.1:7201]
+    workingdir = C:\Users\Annie\GNS3\dynamips
+    udp = 10101
+    [[3725]]
+        image = C:\Users\Annie\GNS3\ios\c3725.image
+        ram = 128
+        idlepc = 0x60c09aa0
+        sparsemem = True
+        ghostios = True
+    [[ROUTER R5]]
+        model = 3725
+        console = 2109
+        aux = 2509
+        f0/0 = R4 f0/0
+        cnfg = configs\R5.cfg
+        x = 579.0
+        y = -121.0
+        z = 1.0
+    [[ROUTER R6]]
+        model = 3725
+        console = 2110
+        aux = 2510
+        slot1 = NM-4T
+        cnfg = configs\R6.cfg
+        x = 497.0
+        y = 285.0
+        z = 1.0
+    [[ROUTER R7]]
+        model = 3725
+        console = 2111
+        aux = 2511
+        cnfg = configs\R7.cfg
+        x = -84.0
+        y = 235.0
+        z = 1.0
+[GNS3-DATA]
+    configs = configs
+    [[NOTE 1]]
+        text = "e0:192.168.1.1\n255.255.255.0\ne1:172.16.127.100\n255.255.255.0"
+        x = -206.0
+        y = -36.5
+    [[NOTE 2]]
+        text = "模拟外网主机\nf0/0 172.16.127.200\n255.255.255.0"
+        x = 21.0
+        y = -316.5
+    [[NOTE 3]]
+        text = "模拟内网主机\nf0/0 192.168.1.10\n255.255.255.0\n192.168.1.1"
+        x = -519.0
+        y = -344.5
+    [[NOTE 4]]
+        text = "模拟DMZ"
+        x = -222.0
+        y = -400.5
+    [[Cloud C1]]
+        x = -389.5
+        y = 162.0
+        z = 1.0
+    [[Cloud C11]]
+        symbol = Host
+        x = 512.5
+        y = 48.5
+        z = 1.0
+    [[Cloud C2]]
+        symbol = Host
+        x = 435.5
+        y = 170.5
+        z = 1.0
+    [[NOTE 5]]
+        text = "f0/0"
+        x = -6.98685723638
+        y = 23.0253040317
+        interface = R5 f0/0
+    [[NOTE 6]]
+        text = "e2"
+        x = 30.339239579
+        y = -17.9114063143
+        interface = PIX1 e2
+    [[NOTE 7]]
+        text = "e1"
+        x = 70.3795093972
+        y = 7.76018689632
+        interface = PIX1 e1
+    [[NOTE 8]]
+        text = "e0"
+        x = -4.27484442517
+        y = 7.48841934593
+        interface = PIX1 e0
+    [[NOTE 9]]
+        text = "f0/0"
+        x = 35.660760421
+        y = 61.9114063143
+        interface = R3 f0/0
+    [[NOTE 10]]
+        text = "f0/0"
+        x = -4.37950939716
+        y = 36.2398131037
+        interface = R2 f0/0
+    [[NOTE 11]]
+        text = "f0/0"
+        x = 70.2748444252
+        y = 36.5115806541
+        interface = R1 f0/0
+    [[NOTE 12]]
+        text = "f0/0"
+        x = 72.9868572364
+        y = 20.9746959683
+        interface = R4 f0/0

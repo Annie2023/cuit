@@ -1,0 +1,97 @@
+autostart = False
+version = 0.8.6
+[qemu 127.0.0.1:10525]
+    workingdir = qemu-flash-drives
+    udp = 40000
+    qemupath = qemu.exe
+    qemuimgpath = qemu-img.exe
+    [[525]]
+        image = C:\Users\Annie\GNS3\ios\pix802.bin
+        ram = 128
+        netcard = e1000
+        serial = 0x30392303
+        key = 0x6f91ddb5,0x3c8ce153,0xcb588bee,0x234c4f77
+    [[PIX PIX1]]
+        e0 = R2 f0/0
+        e1 = SW1 8
+        x = -188.0
+        y = -120.0
+        z = 1.0
+[127.0.0.1:7200]
+    workingdir = C:\Users\Annie\GNS3\dynamips
+    udp = 10001
+    [[3725]]
+        image = C:\Users\Annie\GNS3\ios\c3725.image
+        ram = 128
+        idlepc = 0x60c09aa0
+        sparsemem = True
+        ghostios = True
+    [[ETHSW SW1]]
+        1 = access 1 R1 f0/0
+        8 = access 1 PIX1 e1
+        9 = access 1 nio_gen_eth:\device\npf_{5f8bdf94-5572-4ea7-8447-22a34bf9a0f8}
+        x = -477.5
+        y = 10.0
+        z = 1.0
+    [[ROUTER R1]]
+        model = 3725
+        console = 2101
+        aux = 2501
+        cnfg = configs\R1.cfg
+        f0/0 = SW1 1
+        x = -474.0
+        y = -173.0
+        z = 1.0
+    [[ROUTER R2]]
+        model = 3725
+        console = 2102
+        aux = 2502
+        cnfg = configs\R2.cfg
+        f0/0 = PIX1 e0
+        x = 40.0
+        y = -128.0
+        z = 1.0
+[GNS3-DATA]
+    configs = configs
+    [[NOTE 1]]
+        text = "outside"
+        x = -69.0
+        y = -171.5
+    [[NOTE 2]]
+        text = "9.1"
+        x = -155.0
+        y = -162.5
+    [[NOTE 3]]
+        text = ".3"
+        x = -239.0
+        y = -103.5
+    [[NOTE 4]]
+        text = ".1"
+        x = -468.0
+        y = -213.5
+    [[NOTE 5]]
+        text = "33.33.33.2"
+        x = -393.0
+        y = 220.5
+    [[NOTE 6]]
+        text = "inside"
+        x = -335.0
+        y = -84.5
+    [[NOTE 7]]
+        text = "192.168.9.0/24"
+        x = -82.0
+        y = -58.5
+    [[NOTE 8]]
+        text = "9.2"
+        x = 66.0
+        y = -181.5
+    [[NOTE 9]]
+        text = "33.33.33.0/24"
+        x = -360.0
+        y = 64.5
+    [[Cloud C1]]
+        symbol = Host
+        x = -409.5
+        y = 152.5
+        z = 1.0
+        connections = SW1:9:nio_gen_eth:\device\npf_{5f8bdf94-5572-4ea7-8447-22a34bf9a0f8}
